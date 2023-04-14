@@ -1,0 +1,38 @@
+{
+  "name": "pseu-point-of-sale-api",
+  "version": "1.0.0",
+  "description": "This is be end server and API of the point of sale react project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc",
+    "start": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Momen-G-Ar/pseu-point-of-sale-api.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "point-of-sale"
+  ],
+  "author": "innopos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Momen-G-Ar/pseu-point-of-sale-api/issues"
+  },
+  "homepage": "https://github.com/Momen-G-Ar/pseu-point-of-sale-api#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^18.15.11",
+    "concurrently": "^8.0.1",
+    "nodemon": "^2.0.22",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  }
+}
