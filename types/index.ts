@@ -1,1 +1,1 @@
-export { } from '';
+export { UserNS } from './user.types';
