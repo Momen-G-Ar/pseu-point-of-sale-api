@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export namespace UserNS {
+namespace UserNS {
     export interface User {
         _id: mongoose.Schema.Types.ObjectId;
         username: string;
@@ -12,3 +12,5 @@ export namespace UserNS {
         image: string;
     }
 }
+
+export default UserNS;
