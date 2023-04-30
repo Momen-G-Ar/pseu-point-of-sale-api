@@ -1,4 +1,3 @@
-import { NextFunction } from "express";
 import { UserNS } from "../types";
 import { User } from '../models/index';
 import express from 'express';
