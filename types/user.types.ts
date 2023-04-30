@@ -8,8 +8,8 @@ namespace UserNS {
         password: string;
         role: string;
         fullName: string;
-        phoneNumber: string;
-        image: string;
+        phoneNumber?: string;
+        image?: string;
     }
 }
 
