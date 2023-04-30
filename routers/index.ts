@@ -1,1 +1,1 @@
-export { } from '';
+export { default as userRouter } from './user.router';
