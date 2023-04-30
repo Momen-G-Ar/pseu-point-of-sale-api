@@ -10,10 +10,10 @@ const signupValidation = async (req: express.Request, res: express.Response, nex
     const userWithSameUsername = await User.find({
         username: { $eq: user.username }
     });
-    if (userSameWithEmail) {
+    if (userSameWithEmail.length) {
         return res.status(400).send('invalid email');
     }
-    if (userWithSameUsername) {
+    if (userWithSameUsername.length) {
         return res.status(400).send('invalid username');
     }
     next();
