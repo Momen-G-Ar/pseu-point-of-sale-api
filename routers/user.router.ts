@@ -5,16 +5,15 @@ import { userController } from '../controllers';
 
 const router = express.Router();
 
-router.post('/signup', signupValidation, (req: express.Request, res: express.Response) => {
+router.post('/signup', signupValidation, async (req: express.Request, res: express.Response) => {
     const user: UserNS.User = req.body;
-    userController.addUser(user)
-        .then(response => {
-            res.send('signup succedded');
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(500).send('something went wrong!');
-        });
+    const addUser = await userController.addUser(user);
+    if (addUser) {
+        res.status(201).send('signup succedded');
+    } else {
+        res.status(500).send('something went wrong, please try again!');
+    }
+
 });
 
 
