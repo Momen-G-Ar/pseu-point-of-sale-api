@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { logger } from './middlewares';
 import mongoose from 'mongoose';
+import { userRouter } from './routers';
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use(logger);
+app.use('/user' , userRouter);
 
 app.get('/', (req: express.Request, res: express.Response) => {
     res.send({ value: 'Express + TypeScript Server + Hello World' });
