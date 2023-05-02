@@ -1,11 +1,6 @@
 import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true,
-        unique: true
-    },
     email: {
         type: String,
         required: true,
@@ -19,14 +14,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         enum: ['manager', 'cashier'],
         default: 'cashier',
-        required: true
+        required: true    
     },
     fullName: {
         type: String,
         required: true
-    },
-    phoneNumber: {
-        type: String,
     },
     image: {
         type: String,
