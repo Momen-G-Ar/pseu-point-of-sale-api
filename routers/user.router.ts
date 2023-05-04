@@ -16,5 +16,16 @@ router.post('/signup', signupValidation, async (req: express.Request, res: expre
 
 });
 
+router.post('/login', async (req: express.Request, res: express.Response) => {
+    const user: UserNS.User = req.body;
+    const signedUser = await userController.loginUser(user);
+    if (signedUser) {
+        res.status(200).send(signedUser);
+    } else {
+        res.status(404).send(`email or password wasn't correct please try again`);
+    }
+
+});
+
 
 export default router;
