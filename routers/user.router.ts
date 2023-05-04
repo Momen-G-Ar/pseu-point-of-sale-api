@@ -16,7 +16,7 @@ router.post('/signup', signupValidation, async (req: express.Request, res: expre
 
 });
 
-router.post('/signin', async (req: express.Request, res: express.Response) => {
+router.post('/login', async (req: express.Request, res: express.Response) => {
     const user: UserNS.User = req.body;
     const signedUser = await userController.loginUser(user);
     if (signedUser) {
