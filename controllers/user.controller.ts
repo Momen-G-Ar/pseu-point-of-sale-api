@@ -1,16 +1,26 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt"
 import { User } from "../models";
 import { UserNS } from "../types";
+
+const hashPassword = async (password: string) => {
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashValue = await bcrypt.hash(password, salt)
+    return hashValue;
+}
 
 const addUser = async (user: UserNS.User) => {
     let role = "cashier";
     const users = await User.find();
+    let hashedPassword = await hashPassword(user.password)
+
     if (!users.length) {
         role = "manager";
     }
     const newUser = new User({
         email: user.email,
-        password: user.password,
+        password: hashedPassword,
         role,
         fullName: user.fullName,
         image: user.image,
@@ -22,7 +32,7 @@ const addUser = async (user: UserNS.User) => {
             return true;
         })
         .catch((error: mongoose.Error) => {
-            console.error(error.message);
+            console.error("the error is : " + error.message);
             return false;
         });
 };
@@ -42,4 +52,5 @@ const loginUser = async (user: UserNS.User) => {
 export default {
     addUser,
     loginUser,
+    hashPassword
 };
