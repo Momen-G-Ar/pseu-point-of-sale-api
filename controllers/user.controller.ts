@@ -13,7 +13,7 @@ const hashPassword = async (password: string) => {
 const addUser = async (user: UserNS.User) => {
     let role = "cashier";
     const users = await User.find();
-    let hashedPassword = await hashPassword(user.password)
+    const hashedPassword = await hashPassword(user.password)
 
     if (!users.length) {
         role = "manager";
