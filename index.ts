@@ -8,17 +8,13 @@ import { userRouter } from './routers';
 dotenv.config();
 
 const app: Express = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 
 app.use(express.json());
 app.use(cors());
 
 app.use(logger);
-app.use('/user' , userRouter);
-
-app.get('/', (req: express.Request, res: express.Response) => {
-    res.send({ value: 'Express + TypeScript Server + Hello World' });
-});
+app.use('/user', userRouter);
 
 app.listen(PORT, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
@@ -27,7 +23,7 @@ app.listen(PORT, () => {
 
 const dbConnect = () => {
     console.log("connecting to db...");
-    mongoose.connect("mongodb://127.0.0.1:27017/pos-app")
+    mongoose.connect(`${process.env.DATABASE_SERVER_URL}`)
         .then(() => {
             console.log(`🤗 [server]: Connected to MongoDB`);
         })
