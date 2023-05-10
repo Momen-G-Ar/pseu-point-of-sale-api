@@ -12,7 +12,8 @@ const ItemSchema = new mongoose.Schema({
     },
     barcode: {
         type: String,   
-        required: true
+        required: true,
+        unique: true,
     },
     description: {
         type: String,   
