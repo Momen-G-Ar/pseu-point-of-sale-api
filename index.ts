@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { logger } from './middlewares';
 import mongoose from 'mongoose';
-import { userRouter } from './routers';
+import { userRouter, itemRouter } from './routers';
 
 dotenv.config();
 
@@ -13,8 +13,9 @@ const PORT = process.env.PORT;
 app.use(express.json());
 app.use(cors());
 
-app.use(logger);
+// app.use(logger);
 app.use('/user', userRouter);
+app.use('/item', itemRouter); 
 
 app.listen(PORT, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
