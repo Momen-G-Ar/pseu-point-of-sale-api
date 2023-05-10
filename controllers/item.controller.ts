@@ -1,12 +1,9 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt"
-import { Item, User } from "../models";
+import { Item } from "../models";
 import { ItemNS } from "../types";
 
 
 const addItem = async (item: ItemNS.Item) => {
-    const items = await User.find();
-
     const newItem = new Item({
         name: item.name,
         price: item.price,
@@ -29,9 +26,36 @@ const addItem = async (item: ItemNS.Item) => {
 };
 
 const getItems = async () =>{
-    return Item.find();
+    return await Item.find();
 };
+
+const getItem = async (id: string) =>{
+   let response = await Item.findById(id,(err: any,docs: any) =>{
+        if(err){
+            response = null;
+        }else{
+            response = docs;
+        }
+    });
+    return response;
+};
+
+const deleteItem = async (id: string) =>{
+    let response = await Item.findByIdAndDelete(id,(err: any,docs: any) =>{
+        if(err){
+            response = null;
+        }else{
+            response = docs;
+        }
+    });
+    return response;
+};
+
+
+
 export default {
     addItem,
-    getItems
+    getItems,
+    getItem,
+    deleteItem
 };

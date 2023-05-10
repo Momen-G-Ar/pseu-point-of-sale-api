@@ -24,6 +24,33 @@ router.get('/getItems', async (req: express.Request, res: express.Response) => {
     }else{
         res.status(404).send(undefined);
     }
-})
+});
+
+router.get('/getItem', async (req: express.Request, res: express.Response) => {
+    const item = await itemController.getItem(req.params.id);
+    if(item){
+        res.status(200).send(JSON.stringify(item));
+    }else{
+        res.status(404).send(undefined);
+    }
+});
+
+router.get('/deleteItem', async (req: express.Request, res: express.Response) => {
+    const response = await itemController.deleteItem(req.params.id);
+    if(response){
+        res.status(200).send(JSON.stringify(response));
+    }else{
+        res.status(404).send(undefined);
+    }
+});
+
+router.get('/updateItem', async (req: express.Request, res: express.Response) => {
+    const response = await itemController.deleteItem(req.body);
+    if(response){
+        res.status(200).send(JSON.stringify(response));
+    }else{
+        res.status(404).send(undefined);
+    }
+});
 
 export default router;
