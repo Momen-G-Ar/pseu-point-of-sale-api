@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt, { hash } from "bcrypt";
+import bcrypt from "bcrypt";
 import { User } from "../models";
 import { UserNS } from "../types";
 
