@@ -2,7 +2,7 @@ import { ItemNS } from "../types";
 import { Item } from '../models/index';
 import express from 'express';
 
-const signupValidation = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+const addItemValidation = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const item: ItemNS.Item = req.body;
     const itemSameWithBarcode = await Item.find({
         barcode: { $eq: item.barcode }
@@ -19,4 +19,4 @@ const signupValidation = async (req: express.Request, res: express.Response, nex
     next();
 };
 
-export default signupValidation;
+export default addItemValidation;
