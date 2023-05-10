@@ -28,7 +28,10 @@ const addItem = async (item: ItemNS.Item) => {
         });
 };
 
-
+const getItems = async () =>{
+    return Item.find();
+};
 export default {
-    addItem
+    addItem,
+    getItems
 };
