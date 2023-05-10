@@ -1,19 +1,18 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt"
+import bcrypt, { hash } from "bcrypt";
 import { User } from "../models";
 import { UserNS } from "../types";
 
 const hashPassword = async (password: string) => {
-    const saltRounds = 10;
-    const salt = await bcrypt.genSalt(saltRounds);
-    const hashValue = await bcrypt.hash(password, salt)
+    const salt = '$2b$10$OzHwOAlQb0q78dcONdItPO';
+    const hashValue = await bcrypt.hash(password, salt);
     return hashValue;
-}
+};
 
 const addUser = async (user: UserNS.User) => {
     let role = "cashier";
     const users = await User.find();
-    const hashedPassword = await hashPassword(user.password)
+    const hashedPassword = await hashPassword(user.password);
 
     if (!users.length) {
         role = "manager";
@@ -38,10 +37,14 @@ const addUser = async (user: UserNS.User) => {
 };
 
 const loginUser = async (user: UserNS.User) => {
+    const hashedPassword = await hashPassword(user.password);
+
     const findUser = await User.find({
         email: user.email,
-        password: user.password,
+        password: hashedPassword,
     }).select(['email', 'role', 'fullName', 'image']);
+    console.log(findUser);
+
     if (findUser.length > 0) {
         return findUser;
     } else {
