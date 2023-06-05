@@ -25,26 +25,26 @@ const addItem = async (item: ItemNS.Item) => {
         });
 };
 
-const getItems = async () =>{
+const getItems = async () => {
     return await Item.find();
 };
 
-const getItem = async (id: string) =>{
-   let response = await Item.findById(id,(err: any,docs: any) =>{
-        if(err){
+const getItem = async (id: string) => {
+    let response = await Item.findById(id, (err: any, docs: any) => {
+        if (err) {
             response = null;
-        }else{
+        } else {
             response = docs;
         }
     });
     return response;
 };
 
-const deleteItem = async (id: string) =>{
-    let response = await Item.findByIdAndDelete(id,(err: any,docs: any) =>{
-        if(err){
+const deleteItem = async (id: string) => {
+    let response = await Item.findByIdAndDelete(id, (err: any, docs: any) => {
+        if (err) {
             response = null;
-        }else{
+        } else {
             response = docs;
         }
     });

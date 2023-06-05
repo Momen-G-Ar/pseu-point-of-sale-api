@@ -13,9 +13,9 @@ const PORT = process.env.PORT;
 app.use(express.json());
 app.use(cors());
 
-// app.use(logger);
+app.use(logger);
 app.use('/user', userRouter);
-app.use('/item', itemRouter); 
+app.use('/item', itemRouter);
 
 app.listen(PORT, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);

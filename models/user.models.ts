@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         enum: ['manager', 'cashier'],
         default: 'cashier',
-        required: true    
+        required: true
     },
     fullName: {
         type: String,

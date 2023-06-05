@@ -11,20 +11,21 @@ const ItemSchema = new mongoose.Schema({
         required: true,
     },
     barcode: {
-        type: String,   
+        type: String,
         required: true,
         unique: true,
     },
     description: {
-        type: String,   
+        type: String,
         required: true
     },
     addedBy: {
-        type: String,   
+        type: String,
+        ref: 'User',
         required: true
     },
     priceHistory: {
-        type: [{date: Date, price: Number}],
+        type: [{ date: Date, price: Number }],
         required: true,
     },
 
