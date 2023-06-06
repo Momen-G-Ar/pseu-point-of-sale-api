@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, { set } from "mongoose";
 import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken'
 import { User } from "../models";
 import { UserNS } from "../types";
 
@@ -42,10 +43,19 @@ const loginUser = async (user: UserNS.User) => {
     const findUser = await User.find({
         email: user.email,
         password: hashedPassword,
-    }).select(['email', 'role', 'fullName', 'image']);
-
+    }).select(['_id', 'email', 'role', 'fullName', 'image']);
     if (findUser.length > 0) {
-        return findUser;
+
+        const key: string = process.env.SECRET_KEY || '';
+        const user = findUser[0];
+        console.log(user);
+        const payload = {
+            userId: user._id.toString()
+        };
+        const token = jwt.sign(payload, key, { expiresIn: '8h' });
+        console.log(token);
+        User.updateOne({ _id: findUser[0]._id }, { token });
+        return { findUser, token };
     } else {
         return false;
     }
