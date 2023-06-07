@@ -8,6 +8,8 @@ namespace UserNS {
         role?: string;  //it should not be included in the http request , it will be added in BE when checking if its the first user or not
         fullName: string;
         image?: string;
+        AddedItems?: [mongoose.Schema.Types.ObjectId];
+        AddedCollections?: [mongoose.Schema.Types.ObjectId];
     }
 }
 
