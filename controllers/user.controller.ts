@@ -54,5 +54,5 @@ const loginUser = async (user: UserNS.User) => {
 export default {
     addUser,
     loginUser,
-    hashPassword
+    hashPassword,
 };

@@ -8,13 +8,13 @@ const addItemValidation = async (req: express.Request, res: express.Response, ne
         barcode: { $eq: item.barcode }
     });
     if (itemSameWithBarcode.length) {
-        return res.status(400).send('invalid barcode');
+        return res.status(400).send({ massage: 'invalid barcode' });
     }
     const itemSameWithName = await Item.find({
         name: { $eq: item.name }
     });
     if (itemSameWithName.length) {
-        return res.status(400).send('invalid name');
+        return res.status(400).send({ massage: 'invalid name' });
     }
     next();
 };
