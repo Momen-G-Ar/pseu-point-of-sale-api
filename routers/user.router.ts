@@ -26,6 +26,15 @@ router.post('/login', async (req: express.Request, res: express.Response) => {
     }
 });
 
-
+router.get('/getItems', async (req: express.Request, res: express.Response) => {
+    const user = req.query.userId as string;
+    const userItems = await userController.getUserWithItems(user);
+    if (userItems) {
+        res.status(200).send(userItems);
+    }
+    else {
+        res.status(404).send({ message: `Internal server error` });
+    }
+});
 
 export default router;

@@ -51,8 +51,24 @@ const loginUser = async (user: UserNS.User) => {
     }
 };
 
+const getUserWithItems = (userId: string) => {
+    return User.findById(userId, {}, { strictQuery: false })
+        .populate({
+            path: 'Item',
+            select: '_id' // must edited
+        })
+        .then((value) => {
+            return value;
+        })
+        .catch((error: mongoose.Error) => {
+            console.error(error.message);
+            return false;
+        });
+};
+
 export default {
     addUser,
     loginUser,
     hashPassword,
+    getUserWithItems
 };
