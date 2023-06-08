@@ -14,7 +14,6 @@ const addUser = async (user: UserNS.User) => {
     let role = "cashier";
     const users = await User.find();
     const hashedPassword = await hashPassword(user.password);
-
     if (!users.length) {
         role = "manager";
     }
@@ -48,14 +47,25 @@ const loginUser = async (user: UserNS.User) => {
 
         const key: string = process.env.SECRET_KEY || '';
         const user = findUser[0];
-        console.log(user);
         const payload = {
             userId: user._id.toString()
         };
         const token = jwt.sign(payload, key, { expiresIn: '8h' });
-        console.log(token);
         User.updateOne({ _id: user._id }, { token });
-        return { user, token };
+        const _id = user._id;
+        const email = user.email;
+        const role = user.role;
+        const fullName = user.fullName;
+        const image = user.image;
+        const userToBeReturned = {
+            _id,
+            email,
+            role,
+            fullName,
+            image,
+            token
+        }
+        return (userToBeReturned);
     } else {
         return false;
     }
