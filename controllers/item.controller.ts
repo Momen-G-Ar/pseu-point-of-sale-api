@@ -1,7 +1,12 @@
 import mongoose from "mongoose";
+import express from 'express';
 import { Item } from "../models";
 import { ItemNS } from "../types";
 
+interface Iquery {
+    searchTerms: string;
+    category: string;
+}
 
 const addItem = async (item: ItemNS.Item) => {
     const newItem = new Item({
@@ -25,8 +30,17 @@ const addItem = async (item: ItemNS.Item) => {
         });
 };
 
-const getItems = async () => {
-    return await Item.find();
+const getItems = async (query: Iquery) => {
+
+    const filter: mongoose.FilterQuery<ItemNS.Item> = {};
+    const searchTerms = query.searchTerms || '';
+    console.log(searchTerms)
+    if (query.category) {
+        //We have to bring items from collections table (categories)
+    }
+    const regex = new RegExp(searchTerms, 'i');
+    filter.name = regex;
+    return await Item.find(filter);
 };
 
 const getItem = async (id: string) => {
