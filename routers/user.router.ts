@@ -9,9 +9,9 @@ router.post('/signup', signupValidation, async (req: express.Request, res: expre
     const user: UserNS.User = req.body;
     const addUser = await userController.addUser(user);
     if (addUser) {
-        res.status(201).send('signup succeeded');
+        res.status(201).send({ message: 'signup succeeded' });
     } else {
-        res.status(500).send('something went wrong, please try again!');
+        res.status(500).send({ message: 'something went wrong, please try again!' });
     }
 
 });

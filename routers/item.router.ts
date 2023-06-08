@@ -9,9 +9,9 @@ router.post('/addItem', addItemValidation, async (req: express.Request, res: exp
     const item: ItemNS.Item = req.body;
     const addItem = await itemController.addItem(item);
     if (addItem) {
-        res.status(201).send('item added successfully');
+        res.status(201).send({ message: 'item added successfully' });
     } else {
-        res.status(500).send('something went wrong, please try again!');
+        res.status(500).send({ message: 'something went wrong, please try again!' });
     }
 });
 
