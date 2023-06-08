@@ -54,8 +54,8 @@ const loginUser = async (user: UserNS.User) => {
         };
         const token = jwt.sign(payload, key, { expiresIn: '8h' });
         console.log(token);
-        User.updateOne({ _id: findUser[0]._id }, { token });
-        return { findUser, token };
+        User.updateOne({ _id: user._id }, { token });
+        return { user, token };
     } else {
         return false;
     }
