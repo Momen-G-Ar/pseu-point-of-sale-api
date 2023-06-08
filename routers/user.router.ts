@@ -11,7 +11,7 @@ router.post('/signup', signupValidation, async (req: express.Request, res: expre
     if (addUser) {
         res.status(201).send({ message: 'signup succeeded' });
     } else {
-        res.status(500).send({ message: 'something went wrong, please try again!' });
+        res.status(500).send({ message: 'Something went wrong, please try again!' });
     }
 
 });
@@ -33,7 +33,7 @@ router.get('/getItems', async (req: express.Request, res: express.Response) => {
         res.status(200).send(userItems);
     }
     else {
-        res.status(404).send({ message: `Internal server error` });
+        res.status(500).send({ message: `Something went wrong, please try again!` });
     }
 });
 
@@ -44,7 +44,7 @@ router.get('/getCollections', async (req: express.Request, res: express.Response
         res.status(200).send(userCollections);
     }
     else {
-        res.status(404).send({ message: `Internal server error` });
+        res.status(500).send({ message: `Something went wrong, please try again!` });
     }
 });
 

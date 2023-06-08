@@ -54,7 +54,7 @@ const loginUser = async (user: UserNS.User) => {
 const getUserWithItems = (userId: string) => {
     return User.findById(userId)
         .select(['email', 'role', 'fullName', 'image', 'addedItems', 'addedCollections'])
-        .populate([{ path: 'addedItems' }])
+        .populate([{ path: 'addedItems', select: ['_id', 'name', 'image', 'barcode', 'description', 'addedBy', 'priceHistory'] }])
         .then((value) => {
             return value;
         })
@@ -67,7 +67,7 @@ const getUserWithItems = (userId: string) => {
 const getUserWithCollections = (userId: string) => {
     return User.findById(userId)
         .select(['email', 'role', 'fullName', 'image', 'addedItems', 'addedCollections'])
-        .populate([{ path: 'addedCollections' }])
+        .populate([{ path: 'addedCollections', select: [''] }])// When add collection => choose the fields we need
         .then((value) => {
             return value;
         })
