@@ -41,6 +41,28 @@ router.delete('/deleteItem', async (req: express.Request, res: express.Response)
     }
 });
 
+router.get('/getItemsForUser', async (req: express.Request, res: express.Response) => {
+    const user = req.query.userId as string;
+    const userItems = await itemController.getUserWithItems(user);
+    if (userItems) {
+        res.status(200).send(userItems);
+    }
+    else {
+        res.status(500).send({ message: `Something went wrong, please try again!` });
+    }
+});
+
+router.get('/getCollectionsForUser', async (req: express.Request, res: express.Response) => {
+    const user = req.query.userId as string;
+    const userCollections = await itemController.getUserWithCollections(user);
+    if (userCollections) {
+        res.status(200).send(userCollections);
+    }
+    else {
+        res.status(500).send({ message: `Something went wrong, please try again!` });
+    }
+});
+
 router.put('/updateItem', async (req: express.Request, res: express.Response) => {
 
 });

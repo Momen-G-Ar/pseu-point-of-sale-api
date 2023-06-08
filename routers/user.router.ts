@@ -26,26 +26,4 @@ router.post('/login', async (req: express.Request, res: express.Response) => {
     }
 });
 
-router.get('/getItems', async (req: express.Request, res: express.Response) => {
-    const user = req.query.userId as string;
-    const userItems = await userController.getUserWithItems(user);
-    if (userItems) {
-        res.status(200).send(userItems);
-    }
-    else {
-        res.status(500).send({ message: `Something went wrong, please try again!` });
-    }
-});
-
-router.get('/getCollections', async (req: express.Request, res: express.Response) => {
-    const user = req.query.userId as string;
-    const userCollections = await userController.getUserWithCollections(user);
-    if (userCollections) {
-        res.status(200).send(userCollections);
-    }
-    else {
-        res.status(500).send({ message: `Something went wrong, please try again!` });
-    }
-});
-
 export default router;

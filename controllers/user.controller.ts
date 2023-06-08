@@ -51,36 +51,8 @@ const loginUser = async (user: UserNS.User) => {
     }
 };
 
-const getUserWithItems = (userId: string) => {
-    return User.findById(userId)
-        .select(['email', 'role', 'fullName', 'image', 'addedItems', 'addedCollections'])
-        .populate([{ path: 'addedItems', select: ['_id', 'name', 'image', 'barcode', 'description', 'addedBy', 'priceHistory'] }])
-        .then((value) => {
-            return value;
-        })
-        .catch((error: mongoose.Error) => {
-            console.error(error.message);
-            return false;
-        });
-};
-
-const getUserWithCollections = (userId: string) => {
-    return User.findById(userId)
-        .select(['email', 'role', 'fullName', 'image', 'addedItems', 'addedCollections'])
-        .populate([{ path: 'addedCollections', select: [''] }])// When add collection => choose the fields we need
-        .then((value) => {
-            return value;
-        })
-        .catch((error: mongoose.Error) => {
-            console.error(error.message);
-            return false;
-        });
-};
-
 export default {
     addUser,
     loginUser,
     hashPassword,
-    getUserWithItems,
-    getUserWithCollections,
 };
