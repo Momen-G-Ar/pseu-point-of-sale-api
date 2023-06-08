@@ -6,10 +6,13 @@ const guard = (req: express.Request, res: express.Response, next: express.NextFu
     if (token === '') {
         return res.status(404).send('token is not recieved , please retry and send it with the requesed')
     }
-    if (jwt.verify(token, key)) {
-        console.log('recieved token is valid')
-        next()
-    } else {
+    try {
+        if (jwt.verify(token, key)) {
+            console.log('recieved token is valid')
+            next()
+        }
+    }
+    catch (error) {
         console.log('recieved token is invalid');
         return res.status(404).send('invalid token , please try again!');
     }
