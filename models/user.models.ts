@@ -23,12 +23,12 @@ const UserSchema = new mongoose.Schema({
     image: {
         type: String,
     },
-    AddedItems: {
+    addedItems: {
         type: [mongoose.Schema.Types.ObjectId],
         default: [],
         ref: 'Item'
     },
-    AddedCollections: {
+    addedCollections: {
         type: [mongoose.Schema.Types.ObjectId],
         default: [],
         ref: 'Collection'

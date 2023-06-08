@@ -37,4 +37,15 @@ router.get('/getItems', async (req: express.Request, res: express.Response) => {
     }
 });
 
+router.get('/getCollections', async (req: express.Request, res: express.Response) => {
+    const user = req.query.userId as string;
+    const userCollections = await userController.getUserWithCollections(user);
+    if (userCollections) {
+        res.status(200).send(userCollections);
+    }
+    else {
+        res.status(404).send({ message: `Internal server error` });
+    }
+});
+
 export default router;

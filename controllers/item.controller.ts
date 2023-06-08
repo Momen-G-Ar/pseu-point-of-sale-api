@@ -16,7 +16,7 @@ const addItem = async (item: ItemNS.Item) => {
     try {
         const addItem = await newItem.save();
         const itemId = addItem._id;
-        await User.updateOne({ _id: item.addedBy }, { $push: { AddedItems: itemId } });
+        await User.updateOne({ _id: item.addedBy }, { $push: { addedItems: itemId } });
         return addItem;
     } catch (error) {
         console.error(error);
@@ -39,7 +39,7 @@ const deleteItem = async (userId: string, itemId: string) => {
     try {
         let response = await Item.deleteOne({ _id: itemId });
         if (response.acknowledged) {
-            await User.updateOne({ _id: userId }, { $pull: { AddedItems: itemId } });
+            await User.updateOne({ _id: userId }, { $pull: { addedItems: itemId } });
         }
         return true;
     } catch (error) {

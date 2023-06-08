@@ -42,7 +42,7 @@ const loginUser = async (user: UserNS.User) => {
     const findUser = await User.find({
         email: user.email,
         password: hashedPassword,
-    }).select(['email', 'role', 'fullName', 'image']);
+    }).select(['email', 'role', 'fullName', 'image', 'addedItems', 'addedCollections']);
 
     if (findUser.length > 0) {
         return findUser;
@@ -52,11 +52,22 @@ const loginUser = async (user: UserNS.User) => {
 };
 
 const getUserWithItems = (userId: string) => {
-    return User.findById(userId, {}, { strictQuery: false })
-        .populate({
-            path: 'Item',
-            select: '_id' // must edited
+    return User.findById(userId)
+        .select(['email', 'role', 'fullName', 'image', 'addedItems', 'addedCollections'])
+        .populate([{ path: 'addedItems' }])
+        .then((value) => {
+            return value;
         })
+        .catch((error: mongoose.Error) => {
+            console.error(error.message);
+            return false;
+        });
+};
+
+const getUserWithCollections = (userId: string) => {
+    return User.findById(userId)
+        .select(['email', 'role', 'fullName', 'image', 'addedItems', 'addedCollections'])
+        .populate([{ path: 'addedCollections' }])
         .then((value) => {
             return value;
         })
@@ -70,5 +81,6 @@ export default {
     addUser,
     loginUser,
     hashPassword,
-    getUserWithItems
+    getUserWithItems,
+    getUserWithCollections,
 };
