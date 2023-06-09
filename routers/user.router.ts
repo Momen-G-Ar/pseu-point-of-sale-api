@@ -7,10 +7,14 @@ const router = express.Router();
 
 router.post('/signup', signupValidation, async (req: express.Request, res: express.Response) => {
     const user: UserNS.User = req.body;
-    const addUser = await userController.addUser(user);
-    if (addUser) {
-        res.status(201).send({ message: 'signup succeeded' });
-    } else {
+    try {
+        const addUser = await userController.addUser(user);
+        if (addUser) {
+            res.status(201).send({ message: 'signup succeeded' });
+        } else {
+            res.status(500).send({ message: 'Something went wrong, please try again!' });
+        }
+    } catch (error) {
         res.status(500).send({ message: 'Something went wrong, please try again!' });
     }
 
@@ -18,11 +22,15 @@ router.post('/signup', signupValidation, async (req: express.Request, res: expre
 
 router.post('/login', async (req: express.Request, res: express.Response) => {
     const user: UserNS.User = req.body;
-    const signedUser = await userController.loginUser(user);
-    if (signedUser) {
-        res.status(200).send(signedUser);
-    } else {
-        res.status(404).send({ message: `email or password wasn't correct please try again` });
+    try {
+        const signedUser = await userController.loginUser(user);
+        if (signedUser) {
+            res.status(200).send(signedUser);
+        } else {
+            res.status(404).send({ message: `email or password wasn't correct please try again` });
+        }
+    } catch (error) {
+        res.status(500).send({ message: 'Something went wrong, please try again!' });
     }
 });
 

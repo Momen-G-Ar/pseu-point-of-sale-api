@@ -26,15 +26,25 @@ const addItem = async (item: ItemNS.Item) => {
 };
 
 const getItems = async (userId: string) => {
-    return await Item.find({ addedBy: userId })
-        .select(['_id', 'name', 'image', 'barcode', 'description', 'addedBy', 'priceHistory']);
+    try {
+        return await Item.find({ addedBy: userId })
+            .select(['_id', 'name', 'image', 'barcode', 'description', 'addedBy', 'priceHistory']);
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
 };
 
 const getItem = async (id: string) => {
-    let item = await Item.findById(id);
-    if (item)
-        return item;
-    return false;
+    try {
+        let item = await Item.findById(id);
+        if (item)
+            return item;
+        return false;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
 };
 
 const deleteItem = async (userId: string, itemId: string) => {
