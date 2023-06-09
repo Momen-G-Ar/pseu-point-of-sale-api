@@ -21,8 +21,8 @@ router.get('/getItems/:userId', async (req: express.Request, res: express.Respon
     res.status(200).send(items);
 });
 
-router.get('/getItem/:id', async (req: express.Request, res: express.Response) => {
-    const item = await itemController.getItem(req.params.id);
+router.get('/getItem/:itemId', async (req: express.Request, res: express.Response) => {
+    const item = await itemController.getItem(req.params.itemId);
     if (item) {
         res.status(200).send(item);
     } else {
@@ -38,28 +38,6 @@ router.delete('/deleteItem', async (req: express.Request, res: express.Response)
         res.status(200).send({ message: 'Item deleted successfully' });
     } else {
         res.status(404).send({ message: 'Internal server error, the item is not deleted' });
-    }
-});
-
-router.get('/getItemsForUser', async (req: express.Request, res: express.Response) => {
-    const user = req.query.userId as string;
-    const userItems = await itemController.getUserWithItems(user);
-    if (userItems) {
-        res.status(200).send(userItems);
-    }
-    else {
-        res.status(500).send({ message: `Something went wrong, please try again!` });
-    }
-});
-
-router.get('/getCollectionsForUser', async (req: express.Request, res: express.Response) => {
-    const user = req.query.userId as string;
-    const userCollections = await itemController.getUserWithCollections(user);
-    if (userCollections) {
-        res.status(200).send(userCollections);
-    }
-    else {
-        res.status(500).send({ message: `Something went wrong, please try again!` });
     }
 });
 
