@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
 import { User } from "../models";
 import { UserNS } from "../types";
 
@@ -10,6 +11,7 @@ const hashPassword = async (password: string) => {
         return hashValue;
     } catch (error) {
         console.error(error);
+        return false;
     }
 };
 
@@ -29,8 +31,7 @@ const addUser = async (user: UserNS.User) => {
             image: user.image,
         });
 
-        return newUser
-            .save()
+        return newUser.save()
             .then(() => {
                 return true;
             })
@@ -53,7 +54,27 @@ const loginUser = async (user: UserNS.User) => {
         }).select(['_id', 'email', 'role', 'fullName', 'image', 'addedItems', 'addedCollections']);
 
         if (findUser.length > 0) {
-            return findUser;
+            const key: string = process.env.SECRET_KEY || '';
+            const user = findUser[0];
+            const payload = {
+                userId: user._id.toString()
+            };
+            const token = jwt.sign(payload, key, { expiresIn: '8h' });
+            User.updateOne({ _id: user._id }, { token });
+            const _id = user._id;
+            const email = user.email;
+            const role = user.role;
+            const fullName = user.fullName;
+            const image = user.image;
+            const userToBeReturned = {
+                _id,
+                email,
+                role,
+                fullName,
+                image,
+                token
+            };
+            return (userToBeReturned);
         } else {
             return false;
         }

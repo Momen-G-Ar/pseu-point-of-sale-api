@@ -10,6 +10,7 @@ namespace UserNS {
         image?: string;
         addedItems?: [mongoose.Schema.Types.ObjectId];
         addedCollections?: [mongoose.Schema.Types.ObjectId];
+        token?: string
     }
 }
 

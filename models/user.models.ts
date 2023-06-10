@@ -33,7 +33,9 @@ const UserSchema = new mongoose.Schema({
         default: [],
         ref: 'Collection'
     },
-
+    token: {
+        type: String
+    }
 });
 
 const User = mongoose.model('User', UserSchema);
