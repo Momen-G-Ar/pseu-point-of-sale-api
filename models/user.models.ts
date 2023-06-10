@@ -23,6 +23,19 @@ const UserSchema = new mongoose.Schema({
     image: {
         type: String,
     },
+    addedItems: {
+        type: [mongoose.Schema.Types.ObjectId],
+        default: [],
+        ref: 'Item'
+    },
+    addedCollections: {
+        type: [mongoose.Schema.Types.ObjectId],
+        default: [],
+        ref: 'Collection'
+    },
+    token: {
+        type: String
+    }
 });
 
 const User = mongoose.model('User', UserSchema);
