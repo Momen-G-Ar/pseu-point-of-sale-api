@@ -3,10 +3,6 @@ import express from 'express';
 import { Item } from "../models";
 import { ItemNS } from "../types";
 
-interface Iquery {
-    searchTerms: string;
-    category: string;
-}
 
 const addItem = async (item: ItemNS.Item) => {
     const newItem = new Item({
@@ -30,11 +26,10 @@ const addItem = async (item: ItemNS.Item) => {
         });
 };
 
-const getItems = async (query: Iquery) => {
+const getItems = async (query: ItemNS.IItemQuery) => {
 
     const filter: mongoose.FilterQuery<ItemNS.Item> = {};
     const searchTerms = query.searchTerms || '';
-    console.log(searchTerms)
     if (query.category) {
         //We have to bring items from collections table (categories)
     }

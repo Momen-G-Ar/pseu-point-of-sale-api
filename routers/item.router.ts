@@ -15,8 +15,12 @@ router.post('/addItem', addItemValidation, async (req: express.Request, res: exp
     }
 });
 
-router.get('/getItems', async (req: express.Request, res: express.Response) => {
-    const items = await itemController.getItems(req.query);
+router.get('/getItems', async (req: express.Request<any,any,any,ItemNS.IItemQuery>, res: express.Response) => {
+    const query: ItemNS.IItemQuery= {
+        searchTerms: req.query.searchTerms || '',
+        category: req.query.category || ''
+    }
+    const items = await itemController.getItems(query);
     if (items.length) {
         res.status(200).send(JSON.stringify(items));
     } else {

@@ -8,6 +8,11 @@ namespace ItemNS {
         addedBy: string,
         priceHistory: [{ date: Date, price: Number; }],
     };
+
+    export interface IItemQuery {
+        searchTerms: string,
+        category: string;
+    }
 }
 
 export default ItemNS;
