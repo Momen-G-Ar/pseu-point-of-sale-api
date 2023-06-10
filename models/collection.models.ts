@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Item } from '.';
+import { Item, User } from '.';
 
 
 const CollectionSchema = new mongoose.Schema({
@@ -11,6 +11,10 @@ const CollectionSchema = new mongoose.Schema({
     value: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: Item
+    },
+    addedBy: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: User
     }
 });
 
