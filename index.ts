@@ -18,17 +18,17 @@ app.use('/user', userRouter);
 app.use('/item', guard , itemRouter);
 
 app.listen(PORT, () => {
-    console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
+    console.log(`⚡️ [server]:\x1b[32m Server is running at http://localhost:${PORT} \x1b[0m`);
     dbConnect();
 });
 
 const dbConnect = () => {
-    console.log("connecting to db...");
+    console.log("🧐 [server]: connecting to db...");
     mongoose.connect(`${process.env.DATABASE_SERVER_URL}`)
         .then(() => {
-            console.log(`🤗 [server]: Connected to MongoDB`);
+            console.log(`🤗 [server]:\x1b[32m Connected to MongoDB \x1b[0m`);
         })
         .catch((err) => {
-            console.log(`🤨 [server]: Failed to connect to mongodb ${err}`);
+            console.log(`🤨 [server]:\x1b[31m Failed to connect to mongodb ${err} \x1b[0m`);
         });
 };
