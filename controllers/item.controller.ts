@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import { Item } from "../models";
+import mongoose from 'mongoose';
+import { Item, User } from "../models";
 import { ItemNS } from "../types";
 
 
@@ -14,60 +14,55 @@ const addItem = async (item: ItemNS.Item) => {
         description: item.description
     });
 
-    return newItem
-        .save()
-        .then(() => {
-            return true;
-        })
-        .catch((error: mongoose.Error) => {
-            console.error("the error is : " + error.message);
-            return false;
-        });
-};
-
-const getItems = async () => {
     try {
-        return await Item.find();
+        const addItem = await newItem.save();
+        const itemId = addItem._id;
+        await User.updateOne({ _id: item.addedBy }, { $push: { addedItems: itemId } });
+        return addItem;
     } catch (error) {
         console.error(error);
+        return false;
+    }
+};
+
+const getItems = async (userId: string) => {
+    try {
+        return await Item.find({ addedBy: userId })
+            .select(['_id', 'name', 'image', 'barcode', 'description', 'addedBy', 'priceHistory']);
+    } catch (error) {
+        console.error(error);
+        return false;
     }
 };
 
 const getItem = async (id: string) => {
     try {
-        let response = await Item.findById(id, (err: any, docs: any) => {
-            if (err) {
-                response = null;
-            } else {
-                response = docs;
-            }
-        });
-        return response;
+        let item = await Item.findById(id);
+        if (item)
+            return item;
+        return false;
     } catch (error) {
         console.error(error);
+        return false;
     }
 };
 
-const deleteItem = async (id: string) => {
+const deleteItem = async (userId: string, itemId: string) => {
     try {
-        let response = await Item.findByIdAndDelete(id, (err: any, docs: any) => {
-            if (err) {
-                response = null;
-            } else {
-                response = docs;
-            }
-        });
-        return response;
+        let response = await Item.deleteOne({ _id: itemId });
+        if (response.acknowledged) {
+            await User.updateOne({ _id: userId }, { $pull: { addedItems: itemId } });
+        }
+        return true;
     } catch (error) {
         console.error(error);
+        return false;
     }
 };
-
-
 
 export default {
     addItem,
     getItems,
     getItem,
-    deleteItem
+    deleteItem,
 };

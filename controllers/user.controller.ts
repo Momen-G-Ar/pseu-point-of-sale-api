@@ -11,6 +11,7 @@ const hashPassword = async (password: string) => {
         return hashValue;
     } catch (error) {
         console.error(error);
+        return false;
     }
 };
 
@@ -30,8 +31,7 @@ const addUser = async (user: UserNS.User) => {
             image: user.image,
         });
 
-        return newUser
-            .save()
+        return newUser.save()
             .then(() => {
                 return true;
             })
@@ -41,6 +41,7 @@ const addUser = async (user: UserNS.User) => {
             });
     } catch (error) {
         console.error(error);
+        return false;
     }
 };
 
@@ -50,9 +51,9 @@ const loginUser = async (user: UserNS.User) => {
         const findUser = await User.find({
             email: user.email,
             password: hashedPassword,
-        }).select(['_id', 'email', 'role', 'fullName', 'image']);
-        if (findUser.length > 0) {
+        }).select(['_id', 'email', 'role', 'fullName', 'image', 'addedItems', 'addedCollections']);
 
+        if (findUser.length > 0) {
             const key: string = process.env.SECRET_KEY || '';
             const user = findUser[0];
             const payload = {
@@ -79,6 +80,7 @@ const loginUser = async (user: UserNS.User) => {
         }
     } catch (error) {
         console.error(error);
+        return false;
     }
 };
 

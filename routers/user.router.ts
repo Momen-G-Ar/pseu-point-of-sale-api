@@ -12,12 +12,12 @@ router.post('/signup', signupValidation, async (req: express.Request, res: expre
         if (addUser) {
             res.status(201).send({ message: 'signup succeeded' });
         } else {
-            res.status(500).send({ message: 'something went wrong, please try again!' });
+            res.status(500).send({ message: 'Something went wrong, please try again!' });
         }
     } catch (error) {
-        console.error(error);
-        res.status(500).send({ message: 'something went wrong, please try again!' });
+        res.status(500).send({ message: 'Something went wrong, please try again!' });
     }
+
 });
 
 router.post('/login', async (req: express.Request, res: express.Response) => {
@@ -27,14 +27,11 @@ router.post('/login', async (req: express.Request, res: express.Response) => {
         if (signedUser) {
             res.status(200).send(signedUser);
         } else {
-            res.status(404).send(`email or password wasn't correct please try again`);
+            res.status(404).send({ message: `email or password wasn't correct please try again` });
         }
     } catch (error) {
-        console.error(error);
-        res.status(500).send({ message: 'something went wrong, please try again!' });
+        res.status(500).send({ message: 'Something went wrong, please try again!' });
     }
-
 });
-
 
 export default router;

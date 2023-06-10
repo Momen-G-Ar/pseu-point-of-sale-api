@@ -20,60 +20,46 @@ router.post('/addItem', addItemValidation, async (req: express.Request, res: exp
     }
 });
 
-router.get('/getItems', async (req: express.Request, res: express.Response) => {
+router.get('/getItems/:userId', async (req: express.Request, res: express.Response) => {
+    const userId = req.params.userId;
     try {
-        const items = await itemController.getItems();
-        if (items?.length) {
-            res.status(200).send(JSON.stringify(items));
-        } else {
-            res.status(404).send(undefined);
-        }
+        const items = await itemController.getItems(userId);
+        res.status(200).send(items);
     } catch (error) {
-        console.error(error);
         res.status(500).send({ message: 'something went wrong, please try again!' });
     }
 });
 
-router.get('/getItem', async (req: express.Request, res: express.Response) => {
+router.get('/getItem/:itemId', async (req: express.Request, res: express.Response) => {
     try {
-        const item = await itemController.getItem(req.params.id);
+        const item = await itemController.getItem(req.params.itemId);
         if (item) {
-            res.status(200).send(JSON.stringify(item));
+            res.status(200).send(item);
         } else {
-            res.status(404).send(undefined);
+            res.status(404).send({ message: 'There is no item with this id' });
         }
     } catch (error) {
-        console.error(error);
         res.status(500).send({ message: 'something went wrong, please try again!' });
     }
 });
 
 router.delete('/deleteItem', async (req: express.Request, res: express.Response) => {
+    const userId = req.query.userId as string;
+    const itemId = req.query.itemId as string;
     try {
-        const response = await itemController.deleteItem(req.params.id);
+        const response = await itemController.deleteItem(userId, itemId);
         if (response) {
-            res.status(200).send(JSON.stringify(response));
+            res.status(200).send({ message: 'Item deleted successfully' });
         } else {
-            res.status(404).send(undefined);
+            res.status(404).send({ message: 'Internal server error, the item is not deleted' });
         }
     } catch (error) {
-        console.error(error);
         res.status(500).send({ message: 'something went wrong, please try again!' });
     }
 });
 
 router.put('/updateItem', async (req: express.Request, res: express.Response) => {
-    try {
-        const response = await itemController.deleteItem(req.body);
-        if (response) {
-            res.status(200).send(JSON.stringify(response));
-        } else {
-            res.status(404).send(undefined);
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ message: 'something went wrong, please try again!' });
-    }
+
 });
 
 export default router;

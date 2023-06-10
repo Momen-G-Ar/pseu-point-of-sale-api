@@ -12,7 +12,8 @@ const signupValidation = async (req: express.Request, res: express.Response, nex
             return res.status(400).send({ message: 'invalid email' });
         }
     } catch (error) {
-        console.error(error);   
+        console.error(error);
+        return res.status(500).send({ message: 'internal server error' });
     }
     next();
 };
