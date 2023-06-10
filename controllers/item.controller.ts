@@ -26,29 +26,41 @@ const addItem = async (item: ItemNS.Item) => {
 };
 
 const getItems = async () => {
-    return await Item.find();
+    try {
+        return await Item.find();
+    } catch (error) {
+        console.error(error);
+    }
 };
 
 const getItem = async (id: string) => {
-    let response = await Item.findById(id, (err: any, docs: any) => {
-        if (err) {
-            response = null;
-        } else {
-            response = docs;
-        }
-    });
-    return response;
+    try {
+        let response = await Item.findById(id, (err: any, docs: any) => {
+            if (err) {
+                response = null;
+            } else {
+                response = docs;
+            }
+        });
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
 };
 
 const deleteItem = async (id: string) => {
-    let response = await Item.findByIdAndDelete(id, (err: any, docs: any) => {
-        if (err) {
-            response = null;
-        } else {
-            response = docs;
-        }
-    });
-    return response;
+    try {
+        let response = await Item.findByIdAndDelete(id, (err: any, docs: any) => {
+            if (err) {
+                response = null;
+            } else {
+                response = docs;
+            }
+        });
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
 };
 
 
