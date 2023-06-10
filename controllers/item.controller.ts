@@ -1,6 +1,5 @@
-import mongoose from "mongoose";
-import express from 'express';
-import { Item } from "../models";
+import mongoose from 'mongoose';
+import { Item, User } from "../models";
 import { ItemNS } from "../types";
 
 
@@ -26,8 +25,7 @@ const addItem = async (item: ItemNS.Item) => {
         });
 };
 
-const getItems = async (query: ItemNS.IItemQuery) => {
-
+const getItems = async (userId: string, query: ItemNS.IItemQuery) => {
     const filter: mongoose.FilterQuery<ItemNS.Item> = {};
     const searchTerms = query.searchTerms || '';
     if (query.category) {
@@ -35,7 +33,14 @@ const getItems = async (query: ItemNS.IItemQuery) => {
     }
     const regex = new RegExp(searchTerms, 'i');
     filter.name = regex;
-    return await Item.find(filter);
+    
+    try {
+        return await Item.find({ addedBy: userId , ...filter })
+            .select(['_id', 'name', 'image', 'barcode', 'description', 'addedBy', 'priceHistory']);
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
 };
 
 const getItem = async (id: string) => {

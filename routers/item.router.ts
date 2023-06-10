@@ -15,18 +15,18 @@ router.post('/addItem', addItemValidation, async (req: express.Request, res: exp
     }
 });
 
-router.get('/getItems', async (req: express.Request<any,any,any,ItemNS.IItemQuery>, res: express.Response) => {
-    const query: ItemNS.IItemQuery= {
+router.get('/getItems/:userId', async (req: express.Request<any, any, any, ItemNS.IItemQuery>, res: express.Response) => {
+    const userId = req.params.userId;
+    const query: ItemNS.IItemQuery = {
         searchTerms: req.query.searchTerms || '',
         category: req.query.category || ''
-    }
-    const items = await itemController.getItems(query);
-    if (items.length) {
-        res.status(200).send(JSON.stringify(items));
-    } else {
-        res.status(404).send(undefined);
-    }
-});
+    };
+    try {
+        const items = await itemController.getItems(userId, query);
+        res.status(200).send(items);
+    } catch (error) {
+        res.status(500).send({ message: 'something went wrong, please try again!' });
+    }});
 
 router.get('/getItem', async (req: express.Request, res: express.Response) => {
     const item = await itemController.getItem(req.params.id);
