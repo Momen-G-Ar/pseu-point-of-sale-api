@@ -10,8 +10,7 @@ namespace ItemNS {
     };
 
     export interface IItemQuery {
-        searchTerms: string,
-        category: string;
+        searchTerms: string
     }
 }
 

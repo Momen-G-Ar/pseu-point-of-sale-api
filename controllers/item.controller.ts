@@ -28,11 +28,11 @@ const addItem = async (item: ItemNS.Item) => {
 const getItems = async (userId: string, query: ItemNS.IItemQuery) => {
     const filter: mongoose.FilterQuery<ItemNS.Item> = {};
     const searchTerms = query.searchTerms || '';
-    if (query.category) {
-        //We have to bring items from collections table (categories)
-    }
     const regex = new RegExp(searchTerms, 'i');
-    filter.name = regex;
+    filter.$or = [
+        { name: regex },
+        { description: regex }
+    ]
 
     try {
         return await Item.find({ addedBy: userId, ...filter })

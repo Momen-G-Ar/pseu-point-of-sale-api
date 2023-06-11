@@ -23,8 +23,7 @@ router.post('/addItem', addItemValidation, async (req: express.Request, res: exp
 router.get('/getItems/:userId', async (req: express.Request<any, any, any, ItemNS.IItemQuery>, res: express.Response) => {
     const userId = req.params.userId;
     const query: ItemNS.IItemQuery = {
-        searchTerms: req.query.searchTerms || '',
-        category: req.query.category || ''
+        searchTerms: req.query.searchTerms || ''
     };
     try {
         const items = await itemController.getItems(userId, query);
