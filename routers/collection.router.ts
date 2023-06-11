@@ -1,6 +1,7 @@
 import express from 'express';
 import { collectionController } from '../controllers';
 import { CollectionNS } from '../types';
+import { collectionValidation } from '../middlewares';
 const router = express.Router();
 
 
@@ -8,7 +9,7 @@ router.get('/getCollection', (req, res) => {
 
 })
 
-router.post('/addCollection', async (req: express.Request<null,{message:string},CollectionNS.ICollection>, res) => {
+router.post('/addCollection', collectionValidation, async (req, res) => {
     const collection: CollectionNS.ICollection = req.body;
     try {
         const newCollection = await collectionController.addCollection(collection);
