@@ -15,8 +15,8 @@ app.use(cors());
 
 app.use(logger);
 app.use('/user', userRouter);
-app.use('/item', guard , itemRouter);
-app.use('/item', guard , collectionRouter);
+app.use('/item', guard, itemRouter);
+app.use('/collection', guard, collectionRouter);
 
 app.listen(PORT, () => {
     console.log(`⚡️ [server]:\x1b[32m Server is running at http://localhost:${PORT} \x1b[0m`);

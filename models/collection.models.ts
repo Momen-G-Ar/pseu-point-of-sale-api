@@ -3,7 +3,7 @@ import { Item, User } from '.';
 
 
 const CollectionSchema = new mongoose.Schema({
-    category: {
+    name: {
         type: String,
         required: true,
         unique: true
@@ -12,7 +12,7 @@ const CollectionSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    value: {
+    items: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: Item,
         default: []
