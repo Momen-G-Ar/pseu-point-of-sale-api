@@ -8,9 +8,14 @@ const CollectionSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    icon: {
+        type: String,
+        default: ''
+    },
     value: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: Item
+        ref: Item,
+        default: []
     },
     addedBy: {
         type: [mongoose.Schema.Types.ObjectId],
