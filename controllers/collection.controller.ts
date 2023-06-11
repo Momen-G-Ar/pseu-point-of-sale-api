@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 import { CollectionNS } from "../types"
-import { Collection } from '../models'
+import { Collection , User } from '../models'
 
 const addCollection = async (collection: CollectionNS.ICollection) => {
     const newCollection = new Collection({
@@ -12,6 +12,8 @@ const addCollection = async (collection: CollectionNS.ICollection) => {
 
     try {
         const addedCollection = await newCollection.save()
+        const collectionId = addedCollection._id;
+        await User.updateOne({ _id: collection.addedBy }, { $push: { addedCollections: collectionId } });
         return addedCollection;
     } catch (error) {
         console.error(error)
