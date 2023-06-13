@@ -4,14 +4,17 @@ import cors from 'cors';
 import { guard, logger } from './middlewares';
 import mongoose from 'mongoose';
 import { userRouter, itemRouter, collectionRouter } from './routers';
+import bodyParser from 'body-parser';
 
 dotenv.config();
 
 const app: Express = express();
 const PORT = process.env.PORT;
 
-app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json({ limit: '100mb' })); // Increase the limit to 50 MB
+app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
+
 
 app.use(logger);
 app.use('/user', userRouter);
@@ -29,7 +32,7 @@ const dbConnect = () => {
         .then(() => {
             console.log(`🤗 [server]:\x1b[32m Connected to MongoDB \x1b[0m`);
         })
-        .catch((err) => {
-            console.log(`🤨 [server]:\x1b[31m Failed to connect to mongodb ${err} \x1b[0m`);
+        .catch((err: mongoose.Error) => {
+            console.log(`🤨 [server]:\x1b[31m Failed to connect to mongodb\x1b[0m \n\n${err.message}\n\n `);
         });
 };
