@@ -32,7 +32,7 @@ const getItems = async (userId: string, query: ItemNS.IItemQuery) => {
     filter.$or = [
         { name: regex },
         { description: regex }
-    ]
+    ];
 
     try {
         return await Item.find({ addedBy: userId, ...filter })
