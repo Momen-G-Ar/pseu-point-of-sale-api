@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { guard, logger } from './middlewares';
 import mongoose from 'mongoose';
-import { userRouter, itemRouter } from './routers';
+import { userRouter, itemRouter, collectionRouter } from './routers';
 
 dotenv.config();
 
@@ -15,7 +15,8 @@ app.use(cors());
 
 app.use(logger);
 app.use('/user', userRouter);
-app.use('/item', guard , itemRouter);
+app.use('/item', guard, itemRouter);
+app.use('/collection', guard, collectionRouter);
 
 app.listen(PORT, () => {
     console.log(`⚡️ [server]:\x1b[32m Server is running at http://localhost:${PORT} \x1b[0m`);
