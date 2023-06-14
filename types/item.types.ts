@@ -1,5 +1,8 @@
+import mongoose from 'mongoose';
+
 namespace ItemNS {
     export interface Item {
+        _id?: mongoose.Schema.Types.ObjectId;
         name: string,
         price: number,
         image: string,
@@ -10,7 +13,7 @@ namespace ItemNS {
     };
 
     export interface IItemQuery {
-        searchTerms: string
+        searchTerms: string;
     }
 }
 
