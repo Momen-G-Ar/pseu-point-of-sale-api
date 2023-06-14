@@ -1,11 +1,11 @@
-import express from 'express';
+import express, { response } from 'express';
 import { collectionController } from '../controllers';
 import { CollectionNS } from '../types';
 import { collectionValidation } from '../middlewares';
 const router = express.Router();
 
 
-router.get('/getCollections', async(req, res) => {
+router.get('/getCollections', async (req, res) => {
     res.status(200).send(await collectionController.getCollections());
 });
 
@@ -24,5 +24,17 @@ router.post('/addCollection', collectionValidation, async (req, res) => {
     }
 });
 
+router.put('/updateCollection', async(req, res) => {
+    const { itemsIds, id } = req.body;
+    console.debug('id from router: ', id);
+    console.debug('List from router: ', itemsIds);
+    const resp = await collectionController.updateCollectionItems(id,itemsIds);
+    console.debug('response from controller: ', resp);
+    if(resp){
+        res.status(200).send(resp);
+    }else{
+        res.status(400).send('whatap');
+    }
+});
 
 export default router;
