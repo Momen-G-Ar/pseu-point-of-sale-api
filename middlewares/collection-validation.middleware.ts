@@ -11,7 +11,7 @@ const validateCollection = async (req: express.Request, res: express.Response, n
         return res.status(400).send({ message: "you have to send the id of the category's owner, please try again!" });
     }
     const existedCollection = await Collection.find({ name: collection.name });
-    if (existedCollection) {
+    if (existedCollection.length > 0) {
         return res.status(400).send({ message: "collection's name must be unique, please try again!" });
     }
     next();

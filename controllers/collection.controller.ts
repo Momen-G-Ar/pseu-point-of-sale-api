@@ -24,6 +24,12 @@ const getCollectionItems = (collectionId: mongoose.Schema.Types.ObjectId) => {
 
 };
 
+const getCollections = async()=>{
+    const collections = await Collection.find();
+    console.debug('collections: ', collections);
+    return collections;
+}
+
 const deleteCollection = (collectionId: mongoose.Schema.Types.ObjectId) => {
 
 };
@@ -31,5 +37,6 @@ const deleteCollection = (collectionId: mongoose.Schema.Types.ObjectId) => {
 export default {
     addCollection,
     getCollectionItems,
-    deleteCollection
+    deleteCollection,
+    getCollections,
 };

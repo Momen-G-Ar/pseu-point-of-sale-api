@@ -5,8 +5,8 @@ import { collectionValidation } from '../middlewares';
 const router = express.Router();
 
 
-router.get('/getCollection', (req, res) => {
-
+router.get('/getCollections', async(req, res) => {
+    res.status(200).send(await collectionController.getCollections());
 });
 
 router.post('/addCollection', collectionValidation, async (req, res) => {
