@@ -34,8 +34,6 @@ const deleteCollection = (collectionId: mongoose.Schema.Types.ObjectId) => {
 };
 
 const updateCollectionItems = async (collectionId: mongoose.Types.ObjectId, newItems: mongoose.Types.ObjectId[]) => {
-    console.log('collectionId:', collectionId);
-    console.log('newItems:', newItems);
     try {
       const collection = await Collection.findOneAndUpdate(
         { _id: collectionId },

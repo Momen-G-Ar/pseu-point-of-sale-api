@@ -14,7 +14,7 @@ router.post('/addCollection', collectionValidation, async (req, res) => {
     try {
         const newCollection = await collectionController.addCollection(collection);
         if (newCollection) {
-            res.status(201).send({ message: 'collection added successfully' });
+            res.status(201).send({ message: 'Category added successfully' });
         } else {
             res.status(500).send({ message: 'something went wrong, please try again!' });
         }
@@ -26,14 +26,11 @@ router.post('/addCollection', collectionValidation, async (req, res) => {
 
 router.put('/updateCollection', async(req, res) => {
     const { itemsIds, id } = req.body;
-    console.debug('id from router: ', id);
-    console.debug('List from router: ', itemsIds);
     const resp = await collectionController.updateCollectionItems(id,itemsIds);
-    console.debug('response from controller: ', resp);
     if(resp){
-        res.status(200).send(resp);
+        res.status(200).send({message: "Category updated successfully"});
     }else{
-        res.status(400).send('whatap');
+        res.status(400).send({message: "Failed to update the category"});
     }
 });
 
