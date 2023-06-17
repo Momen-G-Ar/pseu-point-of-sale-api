@@ -20,13 +20,12 @@ router.post('/addItem', addItemValidation, async (req: express.Request, res: exp
     }
 });
 
-router.get('/getItems/:userId', async (req: express.Request<any, any, any, ItemNS.IItemQuery>, res: express.Response) => {
-    const userId = req.params.userId;
+router.get('/getItems', async (req: express.Request<any, any, any, ItemNS.IItemQuery>, res: express.Response) => {
     const query: ItemNS.IItemQuery = {
         searchTerms: req.query.searchTerms || ''
     };
     try {
-        const items = await itemController.getItems(userId, query);
+        const items = await itemController.getItems(query);
         res.status(200).send(items);
     } catch (error) {
         res.status(500).send({ message: 'something went wrong, please try again!' });
