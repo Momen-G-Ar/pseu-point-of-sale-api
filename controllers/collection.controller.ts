@@ -24,12 +24,36 @@ const getCollectionItems = (collectionId: mongoose.Schema.Types.ObjectId) => {
 
 };
 
+const getCollections = async()=>{
+    const collections = await Collection.find();
+    return collections;
+}
+
 const deleteCollection = (collectionId: mongoose.Schema.Types.ObjectId) => {
 
 };
 
+const updateCollectionItems = async (collectionId: mongoose.Types.ObjectId, newItems: mongoose.Types.ObjectId[]) => {
+    try {
+      const collection = await Collection.findOneAndUpdate(
+        { _id: collectionId },
+        { items: newItems },
+        { new: true }
+      );
+  
+      if (!collection) {
+        throw new Error('Collection not found');
+      }
+      return collection;
+    } catch (error) {
+      throw error;
+    }
+  };
+
 export default {
     addCollection,
     getCollectionItems,
-    deleteCollection
+    deleteCollection,
+    getCollections,
+    updateCollectionItems
 };

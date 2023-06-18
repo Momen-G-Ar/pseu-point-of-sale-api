@@ -13,12 +13,12 @@ const CollectionSchema = new mongoose.Schema({
         default: ''
     },
     items: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: Item,
-        default: []
-    },
+        type: [mongoose.Types.ObjectId],
+        ref: 'Item',
+        default: [],
+      },
     addedBy: {
-        type: [mongoose.Schema.Types.ObjectId],
+        type: [mongoose.Types.ObjectId],
         ref: User
     }
 });
