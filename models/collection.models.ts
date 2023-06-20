@@ -16,10 +16,10 @@ const CollectionSchema = new mongoose.Schema({
         type: [mongoose.Types.ObjectId],
         ref: 'Item',
         default: [],
-    },
+      },
     addedBy: {
         type: [mongoose.Types.ObjectId],
-        ref: 'User'
+        ref: User
     }
 });
 
