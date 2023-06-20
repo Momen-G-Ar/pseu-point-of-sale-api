@@ -6,7 +6,28 @@ const router = express.Router();
 
 
 router.get('/getCollections', async (req, res) => {
-    res.status(200).send(await collectionController.getCollections());
+    try {
+        const collections = await collectionController.getCollections();
+        return res.status(200).send(collections);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({ message: 'Internal server error' });
+    }
+});
+
+router.get('/getCollection/:collectionId', async (req, res) => {
+    const collectionId = req.params.collectionId;
+    try {
+        const collection = await collectionController.getCollection(collectionId as string);
+        if (collection)
+            return res.status(200).send(collection);
+        else
+            return res.status(400).send({ message: 'There isn\'t any collection with this id' });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({ message: 'Internal server error' });
+    }
 });
 
 router.post('/addCollection', collectionValidation, async (req, res) => {
@@ -24,13 +45,13 @@ router.post('/addCollection', collectionValidation, async (req, res) => {
     }
 });
 
-router.put('/updateCollection', async(req, res) => {
-    const { itemsIds, id } = req.body;
-    const resp = await collectionController.updateCollectionItems(id,itemsIds);
-    if(resp){
-        res.status(200).send({message: "Category updated successfully"});
-    }else{
-        res.status(400).send({message: "Failed to update the category"});
+router.put('/updateCollection', async (req, res) => {
+    const { itemId, collectionId } = req.body;
+    const resp = await collectionController.updateCollectionItems(collectionId, itemId);
+    if (resp) {
+        res.status(200).send({ message: "Category updated successfully" });
+    } else {
+        res.status(400).send({ message: "Failed to update the category" });
     }
 });
 
