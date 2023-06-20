@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Item, User } from "../models";
+import { Item, User, Collection } from "../models";
 import { ItemNS } from "../types";
 
 
@@ -60,6 +60,10 @@ const deleteItem = async (userId: string, itemId: string) => {
         let response = await Item.deleteOne({ _id: itemId });
         if (response.acknowledged) {
             await User.updateOne({ _id: userId }, { $pull: { addedItems: itemId } });
+            const collections = await Collection.find();
+            collections.map(async (collection) => {
+                await Collection.updateOne({ _id: collection._id }, { $pull: { items: itemId } });
+            });
         }
         return true;
     } catch (error) {

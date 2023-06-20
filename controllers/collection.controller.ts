@@ -24,36 +24,57 @@ const getCollectionItems = (collectionId: mongoose.Schema.Types.ObjectId) => {
 
 };
 
-const getCollections = async()=>{
-    const collections = await Collection.find();
-    return collections;
-}
+const getCollections = async () => {
+    try {
+        const collections = await Collection.find();
+        return collections;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+};
 
+const getCollection = async (id: string) => {
+    try {
+        const collection = await Collection.findOne({ _id: id });
+        return collection;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+};
 const deleteCollection = (collectionId: mongoose.Schema.Types.ObjectId) => {
 
 };
 
-const updateCollectionItems = async (collectionId: mongoose.Types.ObjectId, newItems: mongoose.Types.ObjectId[]) => {
+const updateCollectionItems = async (collectionId: mongoose.Types.ObjectId, itemId: mongoose.Schema.Types.ObjectId) => {
     try {
-      const collection = await Collection.findOneAndUpdate(
-        { _id: collectionId },
-        { items: newItems },
-        { new: true }
-      );
-  
-      if (!collection) {
-        throw new Error('Collection not found');
-      }
-      return collection;
+        let itemExistence = false;
+        const collection = await Collection.findOne({ _id: collectionId });
+        if (collection) {
+            collection.items.map((item) => {
+                itemExistence ||= (item == itemId);
+            });
+            if (itemExistence) {
+                await Collection.findByIdAndUpdate(collectionId, { $pull: { items: itemId } });
+            }
+            else {
+                await Collection.findByIdAndUpdate(collectionId, { $addToSet: { items: itemId } });
+            }
+            return true;
+        }
+        else
+            return false;
     } catch (error) {
-      throw error;
+        throw error;
     }
-  };
+};
 
 export default {
     addCollection,
     getCollectionItems,
     deleteCollection,
     getCollections,
-    updateCollectionItems
+    updateCollectionItems,
+    getCollection,
 };
