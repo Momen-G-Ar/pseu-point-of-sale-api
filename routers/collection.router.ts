@@ -1,11 +1,11 @@
 import express, { response } from 'express';
 import { collectionController } from '../controllers';
-import { CollectionNS } from '../types';
+import { CollectionNS, ItemNS } from '../types';
 import { collectionValidation } from '../middlewares';
 const router = express.Router();
 
 
-router.get('/getCollections', async (req, res) => {
+router.get('/getCollections', async (req: express.Request, res: express.Response) => {
     try {
         const collections = await collectionController.getCollections();
         return res.status(200).send(collections);
@@ -15,7 +15,8 @@ router.get('/getCollections', async (req, res) => {
     }
 });
 
-router.get('/getCollection/:collectionId', async (req, res) => {
+router.get('/getCollection/:collectionId', async (req: express.Request, res: express.Response) => {
+
     const collectionId = req.params.collectionId;
     try {
         const collection = await collectionController.getCollection(collectionId as string);
@@ -30,7 +31,24 @@ router.get('/getCollection/:collectionId', async (req, res) => {
     }
 });
 
-router.post('/addCollection', collectionValidation, async (req, res) => {
+router.get('/getCollectionItems/:collectionId', async (req: express.Request<any, any, any, ItemNS.IItemQuery>, res: express.Response) => {
+    const query: ItemNS.IItemQuery = {
+        searchTerms: req.query.searchTerms || ''
+    };
+    const collectionId = req.params.collectionId;
+    try {
+        const collectionItems = await collectionController.getCollectionItems(collectionId as string, query);
+        if (collectionItems)
+            return res.status(200).send(collectionItems);
+        else
+            return res.status(400).send({ message: 'There isn\'t any collection with this id' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({ message: 'Internal server error' });
+    }
+});
+
+router.post('/addCollection', collectionValidation, async (req: express.Request, res: express.Response) => {
     const collection: CollectionNS.ICollection = req.body;
     try {
         const newCollection = await collectionController.addCollection(collection);
@@ -45,7 +63,7 @@ router.post('/addCollection', collectionValidation, async (req, res) => {
     }
 });
 
-router.put('/updateCollection', async (req, res) => {
+router.put('/updateCollection', async (req: express.Request, res: express.Response) => {
     const { itemId, collectionId } = req.body;
     const resp = await collectionController.updateCollectionItems(collectionId, itemId);
     if (resp) {

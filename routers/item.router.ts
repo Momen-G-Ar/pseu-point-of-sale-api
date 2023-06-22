@@ -20,7 +20,7 @@ router.post('/addItem', addItemValidation, async (req: express.Request, res: exp
     }
 });
 
-router.get('/getItems/:id', async (req: express.Request<any, any, any, ItemNS.IItemQuery>, res: express.Response) => {
+router.get('/getItems', async (req: express.Request<any, any, any, ItemNS.IItemQuery>, res: express.Response) => {
     const query: ItemNS.IItemQuery = {
         searchTerms: req.query.searchTerms || ''
     };

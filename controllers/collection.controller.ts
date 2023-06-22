@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { CollectionNS } from "../types";
+import { CollectionNS, ItemNS } from "../types";
 import { Collection, User } from '../models';
 
 const addCollection = async (collection: CollectionNS.ICollection) => {
@@ -20,8 +20,21 @@ const addCollection = async (collection: CollectionNS.ICollection) => {
         return false;
     }
 };
-const getCollectionItems = (collectionId: mongoose.Schema.Types.ObjectId) => {
+const getCollectionItems = async (collectionId: string, query: ItemNS.IItemQuery) => {
 
+    const filter: mongoose.FilterQuery<ItemNS.Item> = {};
+    const searchTerms = query.searchTerms || '';
+
+    try {
+        const collection = await Collection.findById(collectionId)
+            .populate('items');
+        let items = collection?.items as ItemNS.Item[];
+        items = items.filter(item => item.name.toLowerCase().trim().includes(searchTerms) || item.description.toLowerCase().trim().includes(searchTerms));
+        return items;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
 };
 
 const getCollections = async () => {
