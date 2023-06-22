@@ -106,10 +106,31 @@ const updateInfo = async (user: UserNS.User) => {
     return undefined;
   }
 };
+const updatePassword = async (passwords: any) => {
+  const oldHashed = await hashPassword(passwords.old);
+  const newHashed = await hashPassword(passwords.new);
+
+    const findUser = await User.find({
+      _id: passwords._id,
+      password: oldHashed,
+    });
+
+    if (findUser.length > 0) {
+         await User.findOneAndUpdate(
+          { _id: passwords._id },
+          { password: newHashed },
+          { new: true }
+        );
+        return newHashed;
+    }else{ 
+      return undefined;
+    }
+};
 
 export default {
   addUser,
   loginUser,
   hashPassword,
-  updateInfo
+  updateInfo,
+  updatePassword,
 };

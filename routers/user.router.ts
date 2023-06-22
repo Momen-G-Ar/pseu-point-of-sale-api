@@ -37,11 +37,24 @@ router.post('/login', async (req: express.Request, res: express.Response) => {
 router.put('/updateInfo', updateInfoValidation ,async (req: express.Request, res: express.Response) => {
     const user: UserNS.User = req.body;
     try {
-        const signedUser = await userController.updateInfo(user);
-        if (signedUser) {
-            res.status(200).send(signedUser);
+        const updatedUser = await userController.updateInfo(user);
+        if (updatedUser) {
+            res.status(200).send(updatedUser);
         } else {
-            res.status(404);
+            res.status(404).send();
+        }
+    } catch (error) {
+        res.status(500).send();
+    }
+});
+router.put('/updatePassword',async (req: express.Request, res: express.Response) => { 
+    const passwords = req.body;
+    try {
+        const updatedPassword = await userController.updatePassword(passwords);
+        if (updatedPassword !== undefined) {
+            res.status(200).send({updatedPassword});
+        } else {
+            res.status(400).send();
         }
     } catch (error) {
         res.status(500);
