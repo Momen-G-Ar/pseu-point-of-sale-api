@@ -61,6 +61,18 @@ router.delete('/deleteItem', async (req: express.Request, res: express.Response)
 });
 
 router.put('/updateItem', async (req: express.Request, res: express.Response) => {
+    const item: ItemNS.Item = req.body;
+    try {
+        const updateItem = await itemController.updateItem(item);
+        if (updateItem) {
+            res.status(201).send({ message: 'item updated successfully' });
+        } else {
+            res.status(500).send({ message: 'something went wrong, please try again!' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'something went wrong, please try again!' });
+    }
 
 });
 
