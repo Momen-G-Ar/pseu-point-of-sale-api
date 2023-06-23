@@ -25,6 +25,27 @@ const addItem = async (item: ItemNS.Item) => {
     }
 };
 
+const updateItem = async (newItem: ItemNS.Item) => {
+    try {
+        const update = await Item.updateOne(
+            { _id: newItem._id },
+            {
+                $set: {
+                    name: newItem.name,
+                    image: newItem.image,
+                    barcode: newItem.barcode,
+                    description: newItem.description,
+                    priceHistory: newItem.priceHistory
+                }
+            });
+        return update;
+    }
+    catch (error) {
+        console.error(error);
+        return false;
+    }
+};
+
 const getItems = async (query: ItemNS.IItemQuery) => {
     const filter: mongoose.FilterQuery<ItemNS.Item> = {};
     const searchTerms = query.searchTerms || '';
@@ -77,4 +98,5 @@ export default {
     getItems,
     getItem,
     deleteItem,
+    updateItem
 };
