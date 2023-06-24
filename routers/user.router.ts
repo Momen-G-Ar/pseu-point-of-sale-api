@@ -1,5 +1,5 @@
 import express from 'express';
-import { signupValidation } from '../middlewares';
+import { signupValidation, updateInfoValidation } from '../middlewares';
 import { UserNS } from '../types';
 import { userController } from '../controllers';
 
@@ -31,6 +31,33 @@ router.post('/login', async (req: express.Request, res: express.Response) => {
         }
     } catch (error) {
         res.status(500).send({ message: 'Something went wrong, please try again!' });
+    }
+});
+
+router.put('/updateInfo', updateInfoValidation ,async (req: express.Request, res: express.Response) => {
+    const user: UserNS.User = req.body;
+    try {
+        const updatedUser = await userController.updateInfo(user);
+        if (updatedUser) {
+            res.status(200).send(updatedUser);
+        } else {
+            res.status(404).send();
+        }
+    } catch (error) {
+        res.status(500).send();
+    }
+});
+router.put('/updatePassword',async (req: express.Request, res: express.Response) => { 
+    const passwords = req.body;
+    try {
+        const updatedPassword = await userController.updatePassword(passwords);
+        if (updatedPassword !== undefined) {
+            res.status(200).send({updatedPassword});
+        } else {
+            res.status(400).send();
+        }
+    } catch (error) {
+        res.status(500);
     }
 });
 
