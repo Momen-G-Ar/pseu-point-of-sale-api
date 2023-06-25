@@ -95,9 +95,14 @@ const loginUser = async (user: UserNS.User) => {
 
 const updateInfo = async (user: UserNS.User) => {
   try {
+    const key: string = process.env.SECRET_KEY || ""
+    const payload = {
+      userId: user._id.toString(),
+    };
+    const token = jwt.sign(payload, key, { expiresIn: "8h" });
     const updatedUser = await User.findOneAndUpdate(
       { _id: user._id },
-      { fullName: user.fullName, email: user.email, image: user.image },
+      { fullName: user.fullName, email: user.email, image: user.image, token: token },
       { new: true }
     );
     return updatedUser;
