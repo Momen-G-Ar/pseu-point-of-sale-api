@@ -16,7 +16,7 @@ const OrderSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    casherName: {
+    cashierName: {
         type: String,
     },
     total: {

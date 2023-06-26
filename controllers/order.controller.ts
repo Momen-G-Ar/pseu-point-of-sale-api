@@ -20,7 +20,7 @@ const addOrder = async (order: OrderNS.IOrder) => {
         const count = await Order.find();
         const newOrder = new Order({
             orderNumber: count.length + 1,
-            casherName: order.casherName,
+            cashierName: order.cashierName,
             total: order.total.toFixed(2),
             items: order.items || [],
             discountCode: order.discountCode,
