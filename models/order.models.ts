@@ -1,17 +1,47 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
+
+const itemSchema = new Schema({
+    item: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Item',
+    },
+    quantity: {
+        type: Number,
+    },
+});
 
 const OrderSchema = new mongoose.Schema({
-    number: {
-        type: mongoose.Schema.Types
-
-
+    orderNumber: {
+        type: Number,
+        required: true,
+        unique: true,
+    },
+    casherName: {
+        type: String,
+    },
+    total: {
+        type: Number,
+        required: true,
+    },
+    time: {
+        type: String,
+        required: true,
+    },
+    date: {
+        type: String,
+        required: true,
+    },
+    items: {
+        type: [itemSchema]
+    },
+    discountCode: {
+        type: String,
+    },
+    tax: {
+        type: Number,
     }
-
 });
 
 const Order = mongoose.model('Order', OrderSchema);
-Order.events.addListener('insert', () => {
-
-});
 
 export default Order;
