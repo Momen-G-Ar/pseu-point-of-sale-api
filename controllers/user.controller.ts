@@ -15,6 +15,11 @@ const hashPassword = async (password: string) => {
   }
 };
 
+const getUsers = async () => {
+    const users = await User.find();
+    return users;
+
+};
 const addUser = async (user: UserNS.User) => {
   let role = "cashier";
   try {
@@ -138,4 +143,5 @@ export default {
   hashPassword,
   updateInfo,
   updatePassword,
+  getUsers,
 };

@@ -5,6 +5,12 @@ import { userController } from '../controllers';
 
 const router = express.Router();
 
+
+router.get('/getUsers', async(req: express.Request, res: express.Response)=>{
+    const users = await userController.getUsers();
+    res.status(200).send(users);
+})
+
 router.post('/signup', signupValidation, async (req: express.Request, res: express.Response) => {
     const user: UserNS.User = req.body;
     try {
