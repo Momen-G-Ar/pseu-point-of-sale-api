@@ -6,8 +6,9 @@ import { userController } from '../controllers';
 const router = express.Router();
 
 
-router.get('/getUsers', async(req: express.Request, res: express.Response)=>{
-    const users = await userController.getUsers();
+router.get('/getUsers', async(req: express.Request<any, any, any, any>, res: express.Response)=>{
+    const query= req.query.searchTerms || ''; 
+    const users = await userController.getUsers(query);
     res.status(200).send(users);
 })
 
