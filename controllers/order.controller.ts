@@ -1,5 +1,4 @@
 import { Order } from '../models';
-import { OrderRouter } from '../routers';
 import { OrderNS } from '../types/order.type';
 
 const getOrders = async (page: number, pageSize: number) => {
@@ -7,8 +6,9 @@ const getOrders = async (page: number, pageSize: number) => {
         let orders = await Order.find({}, {}, { sort: { orderNumber: -1 } });
         const start = page * pageSize;
         const end = start + pageSize;
+        const numberOfPages = Number(Number(orders.length / pageSize).toFixed(0));
         orders = orders.slice(start, end);
-        return orders;
+        return { orders, numberOfPages: numberOfPages };
     } catch (error) {
         console.error(error);
         return false;
