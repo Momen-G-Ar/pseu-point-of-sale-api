@@ -6,8 +6,12 @@ const router = express.Router();
 
 router.get('/getOrders', async (req: express.Request, res: express.Response) => {
     try {
-        const page = Number(req.query.page) || 0, pageSize = Number(req.query.pageSize) || 10;
-        const orders = await orderController.getOrders(page, pageSize);
+        const page = Number(req.query.page) || 0;
+        const pageSize = Number(req.query.pageSize) || 10;
+        const startDate = req.query.startDate;
+        const endDate = req.query.endDate;
+        const searchTerms = req.query.searchTerms;
+        const orders = await orderController.getOrders(page, pageSize, startDate as string, endDate as string, searchTerms as string);
         if (orders)
             return res.status(200).send(orders);
         else

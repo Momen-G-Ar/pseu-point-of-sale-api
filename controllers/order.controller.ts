@@ -1,14 +1,24 @@
+import mongoose from 'mongoose';
 import { Order } from '../models';
 import { OrderNS } from '../types/order.type';
 
-const getOrders = async (page: number, pageSize: number) => {
+const getOrders = async (page: number, pageSize: number, startDate: string, endDate: string, searchTerms?: string) => {
+    searchTerms = searchTerms || '';
+    const filter: mongoose.FilterQuery<OrderNS.IOrder> = {};
+    const regex = new RegExp(searchTerms, 'i');
+
+    filter.$and = [
+        { cashierName: regex },
+        { date: { $gte: new Date(startDate), $lte: new Date(new Date(endDate).getTime() + 1000 * 60 * 60 * 24) } },
+    ];
+
     try {
-        let orders = await Order.find({}, {}, { sort: { orderNumber: -1 } });
-        const start = page * pageSize;
-        const end = start + pageSize;
-        const numberOfPages = Number(Number(orders.length / pageSize).toFixed(0));
-        orders = orders.slice(start, end);
-        return { orders, numberOfPages: numberOfPages };
+        let length = (await Order.countDocuments({ ...filter }));
+        let orders = await Order
+            .find({ ...filter }, {}, { sort: { orderNumber: -1 } })
+            .skip(page * pageSize)
+            .limit(pageSize);
+        return { orders, numberOfPages: Math.ceil(Number((length / pageSize))) };
     } catch (error) {
         console.error(error);
         return false;
