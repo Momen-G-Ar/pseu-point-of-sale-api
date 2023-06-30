@@ -33,7 +33,7 @@ const addUser = async (user: UserNS.User) => {
     const users = await User.find();
     const hashedPassword = await hashPassword(user.password);
     if (!users.length) {
-      role = "manager";
+      role = "admin";
     }
     const newUser = new User({
       email: user.email,
