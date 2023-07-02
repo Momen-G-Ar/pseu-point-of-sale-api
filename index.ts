@@ -4,6 +4,7 @@ import cors from 'cors';
 import { guard, logger } from './middlewares';
 import mongoose from 'mongoose';
 import { userRouter, itemRouter, collectionRouter, discountRouter } from './routers';
+import { userRouter, itemRouter, collectionRouter, OrderRouter } from './routers';
 import bodyParser from 'body-parser';
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.use('/user', userRouter);
 app.use('/item', guard, itemRouter);
 app.use('/collection', guard, collectionRouter);
 app.use('/discount', guard, discountRouter)
+app.use('/order', guard, OrderRouter);
 
 app.listen(PORT, () => {
     console.log(`⚡️ [server]:\x1b[32m Server is running at http://localhost:${PORT} \x1b[0m`);

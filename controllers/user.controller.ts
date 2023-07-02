@@ -15,13 +15,25 @@ const hashPassword = async (password: string) => {
   }
 };
 
+const getUsers = async (query: string) => {
+  const filter: mongoose.FilterQuery<UserNS.User> = {};
+  const searchTerms = query|| '';
+  const regex = new RegExp(searchTerms, 'i');
+  filter.$or = [
+      { fullName: regex },
+      { email: regex }
+  ];
+    const users = await User.find({...filter});
+    return users;
+
+};
 const addUser = async (user: UserNS.User) => {
   let role = "cashier";
   try {
     const users = await User.find();
     const hashedPassword = await hashPassword(user.password);
     if (!users.length) {
-      role = "manager";
+      role = "admin";
     }
     const newUser = new User({
       email: user.email,
@@ -102,7 +114,7 @@ const updateInfo = async (user: UserNS.User) => {
     const token = jwt.sign(payload, key, { expiresIn: "8h" });
     const updatedUser = await User.findOneAndUpdate(
       { _id: user._id },
-      { fullName: user.fullName, email: user.email, image: user.image, token: token },
+      { fullName: user.fullName, email: user.email, image: user.image, token: token, role: user.role },
       { new: true }
     );
     return updatedUser;
@@ -138,4 +150,5 @@ export default {
   hashPassword,
   updateInfo,
   updatePassword,
+  getUsers,
 };
