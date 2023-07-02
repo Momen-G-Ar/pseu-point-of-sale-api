@@ -11,6 +11,10 @@ const DiscountSchema = new mongoose.Schema({
         type: Number,
         default: 0,
         required: true
+    }, 
+    token: {
+        type: String , 
+        required: true
     }
 });
 

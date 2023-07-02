@@ -9,14 +9,12 @@ interface IQuery {
 
 router.get('/getDiscount', async (req: express.Request<any, any, any, IQuery>, res) => {
     const discountCode = req.query.discountCode;
-    console.log(discountCode)
     try {
         const discount = await discountController.getDiscount(discountCode);
-        console.log(discount);
         if (discount) {
             res.status(200).send({ value: discount.value });
         } else {
-            res.status(404).send({ message: 'No discount found , please try another code! ' });
+            res.status(404).send({ message: 'Discount code may be expired or not existed , please try another code! ' });
         }
     } catch (error) {
         console.error(error);
