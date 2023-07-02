@@ -8,6 +8,7 @@ const addItem = async (item: ItemNS.Item) => {
         name: item.name,
         price: item.price,
         barcode: item.barcode,
+        quantity: item.quantity,
         image: item.image,
         priceHistory: item.priceHistory,
         addedBy: item.addedBy,
@@ -32,6 +33,7 @@ const updateItem = async (newItem: ItemNS.Item) => {
             {
                 $set: {
                     name: newItem.name,
+                    quantity: newItem.quantity,
                     image: newItem.image,
                     barcode: newItem.barcode,
                     description: newItem.description,
@@ -57,7 +59,7 @@ const getItems = async (query: ItemNS.IItemQuery) => {
 
     try {
         return await Item.find({ ...filter })
-            .select(['_id', 'name', 'image', 'barcode', 'description', 'addedBy', 'priceHistory']);
+            .select(['_id', 'name', 'image', 'barcode', 'description', 'addedBy', 'priceHistory', 'quantity']);
     } catch (error) {
         console.error(error);
         return false;
