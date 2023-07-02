@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { guard, logger } from './middlewares';
 import mongoose from 'mongoose';
+import { userRouter, itemRouter, collectionRouter, discountRouter } from './routers';
 import { userRouter, itemRouter, collectionRouter, OrderRouter } from './routers';
 import bodyParser from 'body-parser';
 
@@ -20,6 +21,7 @@ app.use(logger);
 app.use('/user', userRouter);
 app.use('/item', guard, itemRouter);
 app.use('/collection', guard, collectionRouter);
+app.use('/discount', guard, discountRouter)
 app.use('/order', guard, OrderRouter);
 
 app.listen(PORT, () => {
