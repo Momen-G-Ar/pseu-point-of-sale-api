@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { Item, User } from '.';
 
 
 const CollectionSchema = new mongoose.Schema({

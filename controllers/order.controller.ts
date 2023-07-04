@@ -35,7 +35,7 @@ const addOrder = async (order: OrderNS.IOrder) => {
             items: order.items || [],
             discountCode: order.discountCode,
             tax: order.tax,
-            date: new Date().toLocaleDateString(),
+            date: new Date(),
             time: new Date().toLocaleTimeString(),
         });
         return await newOrder.save();

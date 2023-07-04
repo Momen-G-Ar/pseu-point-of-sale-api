@@ -58,8 +58,17 @@ const getItems = async (query: ItemNS.IItemQuery) => {
     ];
 
     try {
-        return await Item.find({ ...filter })
+        const items = await Item.find({ ...filter })
             .select(['_id', 'name', 'image', 'barcode', 'description', 'addedBy', 'priceHistory', 'quantity']);
+        const sortedItems = items.map((item) => {
+            let newItem = item;
+            if (item.priceHistory.length > 1) {
+                newItem.priceHistory = item.priceHistory.sort((a, b) => ((a.date as Date) >= (b.date as Date) ? -1 : 1));
+            }
+            return newItem;
+        });
+        return sortedItems;
+
     } catch (error) {
         console.error(error);
         return false;
@@ -69,6 +78,7 @@ const getItems = async (query: ItemNS.IItemQuery) => {
 const getItem = async (id: string) => {
     try {
         let item = await Item.findById(id);
+        item?.priceHistory.sort((a, b) => ((a.date as Date) > (b.date as Date) ? -1 : 1));
         if (item)
             return item;
         return false;
