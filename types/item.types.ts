@@ -9,6 +9,7 @@ namespace ItemNS {
         barcode: string,
         description: string,
         addedBy: string,
+        quantity: number,
         priceHistory: [{ date: Date, price: Number; }],
     };
 
