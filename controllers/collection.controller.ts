@@ -56,8 +56,23 @@ const getCollection = async (id: string) => {
         return false;
     }
 };
-const deleteCollection = (collectionId: mongoose.Schema.Types.ObjectId) => {
-
+const deleteCollection = async (collectionId: string, userId: string) => {
+    try {
+        const deleteCollection = await Collection.findOneAndDelete({ _id: collectionId });
+        if (deleteCollection) {
+            const deleteFromUser = await User.findByIdAndUpdate(userId, {
+                $pull: { addedCollections: collectionId }
+            });
+            if (deleteFromUser)
+                return true;
+            else
+                return false;
+        }
+        return false;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
 };
 
 const updateCollectionItems = async (collectionId: mongoose.Types.ObjectId, itemId: mongoose.Schema.Types.ObjectId) => {

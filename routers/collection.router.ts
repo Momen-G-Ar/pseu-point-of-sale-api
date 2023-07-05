@@ -1,5 +1,5 @@
-import express, { response } from 'express';
-import { collectionController } from '../controllers';
+import express from 'express';
+import { collectionController, itemController } from '../controllers';
 import { CollectionNS, ItemNS } from '../types';
 import { collectionValidation } from '../middlewares';
 const router = express.Router();
@@ -70,6 +70,23 @@ router.put('/updateCollection', async (req: express.Request, res: express.Respon
         res.status(200).send({ message: "Collection updated successfully" });
     } else {
         res.status(400).send({ message: "Failed to update the collection" });
+    }
+});
+
+
+router.delete('/deleteCollection', async (req: express.Request, res: express.Response) => {
+    const collectionId = req.query.collectionId, userId = req.query.userId;
+    try {
+        const deleteItem = await collectionController.deleteCollection(collectionId as string, userId as string);
+        if (deleteItem) {
+            return res.status(200).send({ message: 'Collection deleted successfully' });
+        }
+        else {
+            return res.status(500).send({ message: 'Collection is not deleted' });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({ message: 'Collection is not deleted' });
     }
 });
 
