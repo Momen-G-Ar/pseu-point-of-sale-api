@@ -25,6 +25,19 @@ const getOrders = async (page: number, pageSize: number, startDate: string, endD
     }
 };
 
+const getSingleOrder = async (orderId: string) => {
+    try {
+        const order = await Order.findById(orderId);
+        if (order)
+            return order;
+        else
+            return false;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+};
+
 const addOrder = async (order: OrderNS.IOrder) => {
     try {
         const count = await Order.find();
@@ -48,4 +61,5 @@ const addOrder = async (order: OrderNS.IOrder) => {
 export default {
     getOrders,
     addOrder,
+    getSingleOrder,
 };
