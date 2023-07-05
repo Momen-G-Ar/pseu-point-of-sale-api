@@ -24,6 +24,11 @@ const ItemSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    quantity: {
+        type: Number,
+        default: 0,
+        required: true
+    },
     priceHistory: {
         type: [{ date: Date, price: Number }],
         required: true,
