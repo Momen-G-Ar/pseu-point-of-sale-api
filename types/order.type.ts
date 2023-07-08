@@ -3,9 +3,10 @@ import mongoose from 'mongoose';
 export namespace OrderNS {
     export interface IOrder {
         _id?: mongoose.Schema.Types.ObjectId;
-        orderNumber?: number;
-        cashierName: String;
-        total: Number;
+        orderNumber?: string;
+        orderNumberToSort?: number;
+        cashierName: string;
+        total: number;
         time?: string;
         date?: string;
         items?: {
@@ -13,6 +14,6 @@ export namespace OrderNS {
             quantity: number;
         }[];
         discountCode?: String;
-        tax?: Number;
+        tax?: number;
     }
 }
