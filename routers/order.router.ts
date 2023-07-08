@@ -1,6 +1,7 @@
 import express, { query } from 'express';
 import { OrderNS } from '../types/order.type';
 import orderController from '../controllers/order.controller';
+import mongoose from 'mongoose';
 
 const router = express.Router();
 
@@ -19,6 +20,21 @@ router.get('/getOrders', async (req: express.Request, res: express.Response) => 
     } catch (error) {
         console.error(error);
         res.status(500).send({ message: 'Something went wrong, please try again' });
+    }
+});
+
+router.get('/getOrder/:id', async (req, res) => {
+    const orderId: string = req.params.id;
+    try {
+        const order = await orderController.getSingleOrder(orderId);
+        if (order) {
+            res.status(200).send(order);
+        } else {
+            res.status(404).send({ message: 'No order found!' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'Something went wrong, please try again!' });
     }
 });
 
