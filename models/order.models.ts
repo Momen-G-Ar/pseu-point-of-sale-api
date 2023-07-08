@@ -12,7 +12,12 @@ const itemSchema = new Schema({
 
 const OrderSchema = new mongoose.Schema({
     orderNumber: {
-        type: Number,
+        type: String,
+        required: true,
+        unique: true,
+    },
+    orderNumberToSort: {
+        type: mongoose.Schema.Types.Decimal128,
         required: true,
         unique: true,
     },
