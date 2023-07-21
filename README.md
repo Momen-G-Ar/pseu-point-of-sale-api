@@ -1,7 +1,7 @@
 # PSEU Point Of Sales API
 
 > API used to serve the requests of the Point of sales UI
-
+> To see PSEU Point Of Sales UI [click here](https://github.com/lana-qawasmy/pseu-point-of-sale-ui)
 ## Table of Content
 
 -   [General Information](#general-information)
